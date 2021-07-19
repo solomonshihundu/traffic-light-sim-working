@@ -1,11 +1,13 @@
 package com.ss.traffic.simulator.v2;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Main
+public class Main implements ChangeListener
 {
     //Control Buttons
     private JButton startBtn = new JButton("START");
@@ -159,6 +161,21 @@ public class Main
             simIsRunning.set(true);
         });
     }
+
+    @Override
+    public void stateChanged(ChangeEvent e)
+    {
+        //Update speed
+        data[0][3] = car1.getSpeed() + " km/h";
+        data[1][3] = car2.getSpeed() + " km/h";
+        data[2][3] = car3.getSpeed() + " km/h";
+
+        /**
+         * Effect chnages
+         */
+        trafficDataTable.repaint();
+    }
+
 
     public static void main(String args[])
     {
