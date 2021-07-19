@@ -22,18 +22,23 @@ public class Main
     protected static Thread runGUI;
 
     //Stores initial traffic data
-    Object[][] data = new Object[][]{{},{}};
+    Object[][] data = new Object[][]{
+                                    {"Car 1", 0, 0, 0},
+                                    {"Car 2", 0, 0, 0},
+                                    {"Car 3", 0, 0, 0},
+                                    };
 
     //Display data in JTable
     String [] tableCols = {"Car","X-pos","Y-pos","Speed km/h"};
     JTable trafficDataTable = new JTable(data,tableCols);
 
     //Displays all components
-    Window window = new Window("TRAFFIC SIMULATOR");
+    Window window;
 
 
     public Main()  {
-
+        window = new Window("TRAFFIC SIMULATOR");
+        setupGUI();
     }
 
     private void setupGUI()
@@ -113,6 +118,6 @@ public class Main
 
     public static void main(String args[])
     {
-        Main simulator = new Main();
+        SwingUtilities.invokeLater(()->new Main());
     }
 }
