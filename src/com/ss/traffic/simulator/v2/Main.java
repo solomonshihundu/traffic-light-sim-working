@@ -18,22 +18,19 @@ public class Main
     private JLabel intersectionBColor = new JLabel();
     private JLabel intersectionCColor = new JLabel();
 
-    //Thread that runs GUI
-    protected static Thread runGUI;
-
     //Stores initial traffic data
-    Object[][] data = new Object[][]{
+    private Object[][] data = new Object[][]{
                                     {"Car 1", 0, 0, 0},
                                     {"Car 2", 0, 0, 0},
                                     {"Car 3", 0, 0, 0},
                                     };
 
     //Display data in JTable
-    String [] tableCols = {"Car","X-pos","Y-pos","Speed km/h"};
-    JTable trafficDataTable = new JTable(data,tableCols);
+    private String [] tableCols = {"Car","X-pos","Y-pos","Speed km/h"};
+    private JTable trafficDataTable = new JTable(data,tableCols);
 
     //Displays all components
-    Window window;
+    private Window window;
 
 
     public Main()  {
