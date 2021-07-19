@@ -11,7 +11,7 @@ public class Main
     private JButton stopBtn = new JButton("STOP");
 
     //Display current time
-    static JLabel timeTxt = new JLabel();
+    public static JLabel timeTxt = new JLabel();
 
     //Intersections labels
     private JLabel intersectionAColor = new JLabel();
@@ -130,5 +130,8 @@ public class Main
     public static void main(String args[])
     {
         SwingUtilities.invokeLater(()->new Main());
+
+        Thread clock = new Thread(new CurrentTime());
+        clock.start();
     }
 }
