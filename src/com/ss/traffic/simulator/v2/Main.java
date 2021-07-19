@@ -36,12 +36,6 @@ public class Main
 
     }
 
-
-    public static void main(String args[])
-    {
-
-    }
-
     private void setupGUI()
     {
         JLabel currentTime = new JLabel("Current Time");
@@ -52,6 +46,14 @@ public class Main
         trafficDataTable.setPreferredScrollableViewportSize(new Dimension(400,70));
         trafficDataTable.setFillsViewportHeight(true);
 
-        
+        JPanel dataPanel = new JPanel();
+
+        JScrollPane scrollPane = new JScrollPane(trafficDataTable);
+        dataPanel.add(scrollPane);
+    }
+
+    public static void main(String args[])
+    {
+        Main simulator = new Main();
     }
 }
