@@ -39,9 +39,9 @@ public class Main
     private void setupGUI()
     {
         JLabel currentTime = new JLabel("Current Time");
-        JLabel intesectionA = new JLabel("Intersection A :");
-        JLabel intesectionB = new JLabel("Intersection B :");
-        JLabel intesectionC = new JLabel("Intersection C :");
+        JLabel intersectionA = new JLabel("Intersection A :");
+        JLabel intersectionB = new JLabel("Intersection B :");
+        JLabel intersectionC = new JLabel("Intersection C :");
 
         trafficDataTable.setPreferredScrollableViewportSize(new Dimension(400,70));
         trafficDataTable.setFillsViewportHeight(true);
@@ -50,6 +50,65 @@ public class Main
 
         JScrollPane scrollPane = new JScrollPane(trafficDataTable);
         dataPanel.add(scrollPane);
+
+        //GUI Layout
+        GroupLayout layout = new GroupLayout(window.getContentPane());
+        window.getContentPane().setLayout(layout);
+
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setHorizontalGroup(layout.createSequentialGroup()
+                .addContainerGap(30, 30) //Container gap on left side
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(currentTime)
+                                        .addComponent(timeTxt)))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(startBtn)
+                                        .addComponent(pauseBtn)
+                                        .addComponent(stopBtn)))
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(intersectionA)
+                                        .addComponent(intersectionAColor)
+                                        .addContainerGap(20, 20)
+                                        .addComponent(intersectionB)
+                                        .addComponent(intersectionBColor)
+                                        .addContainerGap(20, 20)
+                                        .addComponent(intersectionC)
+                                        .addComponent(intersectionCColor)
+                                        .addComponent(dataPanel)))
+                .addContainerGap(30, 30) //Container gap on right side
+
+        );
+
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(currentTime)
+                        .addComponent(timeTxt))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(startBtn)
+                        .addComponent(pauseBtn)
+                        .addComponent(stopBtn))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(intersectionA)
+                        .addComponent(intersectionAColor)
+                        .addComponent(intersectionB)
+                        .addComponent(intersectionBColor)
+                        .addComponent(intersectionC)
+                        .addComponent(intersectionCColor))
+                .addComponent(dataPanel)
+
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addGap(20, 20, 20))
+                .addGap(20, 20, 20)
+        );
+
+        window.pack();
+
     }
 
     public static void main(String args[])
