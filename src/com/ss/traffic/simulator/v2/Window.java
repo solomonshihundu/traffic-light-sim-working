@@ -11,5 +11,6 @@ public class Window extends JFrame
         setSize(600,400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        setResizable(false);
     }
 }

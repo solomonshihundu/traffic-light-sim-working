@@ -65,17 +65,18 @@ public class Main
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
                 .addContainerGap(30, 30) //Container gap on left side
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                                         .addComponent(currentTime)
                                         .addComponent(timeTxt)))
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                .addGroup(layout.createSequentialGroup()
                                         .addComponent(startBtn)
                                         .addComponent(pauseBtn)
                                         .addComponent(stopBtn)))
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createSequentialGroup()
                                         .addComponent(intersectionA)
                                         .addComponent(intersectionAColor)
                                         .addContainerGap(20, 20)
@@ -83,7 +84,7 @@ public class Main
                                         .addComponent(intersectionBColor)
                                         .addContainerGap(20, 20)
                                         .addComponent(intersectionC)
-                                        .addComponent(intersectionCColor)
+                                        .addComponent(intersectionCColor))
                                         .addComponent(dataPanel)))
                 .addContainerGap(30, 30) //Container gap on right side
 
