@@ -32,10 +32,19 @@ public class Main implements ChangeListener
     Car car2 = new Car("Car2Thread", 1000, 0);
     Car car3 = new Car("Car3Thread", 2000, 1000);
 
+
+    /**
+     * Three traffic lights running on a thread each
+     */
+    Intersection intersecA = new Intersection("aThread", intersectionAColor);
+    Intersection intersecB = new Intersection("bThread", intersectionBColor);
+    Intersection intersecC = new Intersection("cThread", intersectionCColor);
+
     /**
      * Array to loop through all the cars
      */
     Car[] carArray = {car1, car2, car3};
+    Intersection[] intersectionArray = {intersecA, intersecB, intersecC};
 
     //Stores initial traffic data
     private Object[][] data = new Object[][]{
@@ -156,9 +165,56 @@ public class Main implements ChangeListener
                 car1.start();
                 car2.start();
                 car3.start();
+
+                intersecA.start();
+                intersecB.start();
+                intersecC.start();
             }
 
             simIsRunning.set(true);
+        });
+
+        pauseBtn.addActionListener((ActionEvent e) -> {
+            if(simIsRunning.get()) {
+                //Loop through cars and intersections to call suspend()
+                for(Car i: carArray) {
+                    i.suspend();
+                    System.out.println(Thread.currentThread().getName() + " calling suspend");
+                }
+                for(Intersection i: intersectionArray) {
+                    //Call interrupt for sleeping intersection threads
+                    i.interrupt();
+                    i.suspend();
+                }
+
+                pauseBtn.setText("CONTINUE");
+                simIsRunning.set(false);
+            } else {
+                for(Car i:carArray) {
+                    if(i.suspended.get()) {
+                        i.resume();
+                        System.out.println(Thread.currentThread().getName() + " calling resume");
+                    }
+                }
+                for(Intersection i: intersectionArray) {
+                    i.resume();
+                }
+                pauseBtn.setText("PAUSE");
+                simIsRunning.set(true);
+            }
+        });
+
+        stopBtn.addActionListener((ActionEvent e) -> {
+            if(simIsRunning.get()) {
+                System.out.println(Thread.currentThread().getName() + " calling stop");
+                for(Car i: carArray) {
+                    i.stop();
+                }
+                for(Intersection i: intersectionArray) {
+                    i.stop();
+                }
+                simIsRunning.set(false);
+            }
         });
     }
 

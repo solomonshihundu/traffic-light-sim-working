@@ -17,7 +17,7 @@ public class Intersection implements Runnable {
     //Checks running state of traffic threads
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
     public final AtomicBoolean suspended = new AtomicBoolean(false);
-    
+
     Thread thread;
     String threadName;
 
