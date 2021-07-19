@@ -6,9 +6,9 @@ import java.awt.*;
 public class Main
 {
     //Control Buttons
-    private JButton startBtn = new JButton("start");
-    private JButton pauseBtn = new JButton("pause");
-    private JButton stopBtn = new JButton("stop");
+    private JButton startBtn = new JButton("START");
+    private JButton pauseBtn = new JButton("PAUSE");
+    private JButton stopBtn = new JButton("STOP");
 
     //Display current time
     static JLabel timeTxt = new JLabel();
@@ -43,10 +43,23 @@ public class Main
 
     private void setupGUI()
     {
-        JLabel currentTime = new JLabel("Current Time");
-        JLabel intersectionA = new JLabel("Intersection A :");
-        JLabel intersectionB = new JLabel("Intersection B :");
-        JLabel intersectionC = new JLabel("Intersection C :");
+        startBtn.setBackground(new Color(48,57,135));
+        startBtn.setForeground(new Color(255,178,127));
+        startBtn.setSize(120,40);
+
+        pauseBtn.setBackground(new Color(48,57,135));
+        pauseBtn.setForeground(new Color(255,178,127));
+        pauseBtn.setSize(120,40);
+
+        stopBtn.setBackground(new Color(48,57,135));
+        stopBtn.setForeground(new Color(255,178,127));
+        stopBtn.setSize(120,40);
+
+
+        JLabel currentTime = new JLabel("Current Time : ");
+        JLabel intersectionA = new JLabel("Intersection A : ");
+        JLabel intersectionB = new JLabel("Intersection B : ");
+        JLabel intersectionC = new JLabel("Intersection C : ");
 
         trafficDataTable.setPreferredScrollableViewportSize(new Dimension(400,70));
         trafficDataTable.setFillsViewportHeight(true);
@@ -64,7 +77,7 @@ public class Main
         layout.setAutoCreateContainerGaps(true);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addContainerGap(30, 30) //Container gap on left side
+                .addContainerGap(60, 60) //Container gap on left side
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -79,19 +92,19 @@ public class Main
                 .addGroup(layout.createSequentialGroup()
                                         .addComponent(intersectionA)
                                         .addComponent(intersectionAColor)
-                                        .addContainerGap(20, 20)
+                                        .addContainerGap(40, 40)
                                         .addComponent(intersectionB)
                                         .addComponent(intersectionBColor)
-                                        .addContainerGap(20, 20)
+                                        .addContainerGap(40, 40)
                                         .addComponent(intersectionC)
                                         .addComponent(intersectionCColor))
                                         .addComponent(dataPanel)))
-                .addContainerGap(30, 30) //Container gap on right side
+                .addContainerGap(60, 60) //Container gap on right side
 
         );
 
         layout.setVerticalGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(currentTime)
                         .addComponent(timeTxt))
