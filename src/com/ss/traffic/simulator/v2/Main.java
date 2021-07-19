@@ -2,6 +2,8 @@ package com.ss.traffic.simulator.v2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main
 {
@@ -13,16 +15,31 @@ public class Main
     //Display current time
     public static JLabel timeTxt = new JLabel();
 
+    private static boolean isRunning;
+    private static final AtomicBoolean simIsRunning = new AtomicBoolean(false);
+
     //Intersections labels
     private JLabel intersectionAColor = new JLabel();
     private JLabel intersectionBColor = new JLabel();
     private JLabel intersectionCColor = new JLabel();
 
+    /**
+     * Three car objects running a thread each
+     */
+    Car car1 = new Car("Car1Thread", 200, 0);
+    Car car2 = new Car("Car2Thread", 1000, 0);
+    Car car3 = new Car("Car3Thread", 2000, 1000);
+
+    /**
+     * Array to loop through all the cars
+     */
+    Car[] carArray = {car1, car2, car3};
+
     //Stores initial traffic data
     private Object[][] data = new Object[][]{
-                                    {"Car 1", 0, 0, 0},
-                                    {"Car 2", 0, 0, 0},
-                                    {"Car 3", 0, 0, 0},
+                                    {"Car 1", car1.getPosition(), 0, 0},
+                                    {"Car 2", car2.getPosition(), 0, 0},
+                                    {"Car 3", car3.getPosition(), 0, 0},
                                     };
 
     //Display data in JTable
@@ -36,6 +53,7 @@ public class Main
     public Main()  {
         window = new Window("TRAFFIC SIMULATOR");
         setupGUI();
+        onClick();
     }
 
     private void setupGUI()
@@ -125,6 +143,21 @@ public class Main
 
         window.pack();
 
+    }
+
+    private void onClick()
+    {
+        startBtn.addActionListener((ActionEvent e) ->
+        {
+            if(!simIsRunning.get())
+            {
+                car1.start();
+                car2.start();
+                car3.start();
+            }
+
+            simIsRunning.set(true);
+        });
     }
 
     public static void main(String args[])
