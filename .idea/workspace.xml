@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0d508950-eac8-4f86-98ea-5cdff58c4af0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/traffic-simulator-v2/com/ss/traffic/simulator/v2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/traffic-simulator-v2/com/ss/traffic/simulator/v2/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/ss/traffic/simulator/v2/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/ss/traffic/simulator/v2/Main.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +78,7 @@
       <workItem from="1626394450286" duration="1787000" />
       <workItem from="1626684895430" duration="15620000" />
       <workItem from="1626730980868" duration="1351000" />
-      <workItem from="1626872522923" duration="6118000" />
+      <workItem from="1626872522923" duration="7095000" />
     </task>
     <servers />
   </component>
