@@ -25,6 +25,11 @@ public class Main extends JFrame implements ChangeListener,Runnable
     private JLabel intersectionBColor = new JLabel();
     private JLabel intersectionCColor = new JLabel();
 
+    //JSliders for showing car progress
+    static JSlider car1Slider = new JSlider(0, 3000);
+    static JSlider car2Slider = new JSlider(0, 3000);
+    static JSlider car3Slider = new JSlider(0, 3000);
+
     static Thread workerThread;
 
     /**
@@ -49,11 +54,11 @@ public class Main extends JFrame implements ChangeListener,Runnable
     Intersection[] intersectionArray = {intersecA, intersecB, intersecC};
 
     //Stores initial traffic data
-    private Object[][] data = new Object[][]{
+    private Object[][] data = {
                                     {"Car 1", car1.getPosition(), 0, 0},
                                     {"Car 2", car2.getPosition(), 0, 0},
-                                    {"Car 3", car3.getPosition(), 0, 0},
-                                    };
+                                    {"Car 3", car3.getPosition(), 0, 0}
+    };
 
     //Display data in JTable
     private String [] tableCols = {"Car","X-pos","Y-pos","Speed km/h"};
@@ -71,9 +76,10 @@ public class Main extends JFrame implements ChangeListener,Runnable
     {
         setLocationRelativeTo(null);
         setSize(600,400);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
+        pack();
     }
 
 
@@ -96,6 +102,21 @@ public class Main extends JFrame implements ChangeListener,Runnable
         JLabel intersectionA = new JLabel("Intersection A : ");
         JLabel intersectionB = new JLabel("Intersection B : ");
         JLabel intersectionC = new JLabel("Intersection C : ");
+
+        //Add changeListeners to car sliders
+        car1Slider.addChangeListener(this);
+        car2Slider.addChangeListener(this);
+        car3Slider.addChangeListener(this);
+
+        car1Slider.setValue(car1.getPosition());
+        car2Slider.setValue(car2.getPosition());
+        car3Slider.setValue(car3.getPosition());
+
+        car1Slider.setMajorTickSpacing(1000);
+        car1Slider.setPaintTicks(true);
+
+        car2Slider.setMajorTickSpacing(1000);
+        car2Slider.setPaintTicks(true);
 
         trafficDataTable.setPreferredScrollableViewportSize(new Dimension(400,70));
         trafficDataTable.setFillsViewportHeight(true);
@@ -124,14 +145,17 @@ public class Main extends JFrame implements ChangeListener,Runnable
                                         .addComponent(startBtn)
                                         .addComponent(pauseBtn)
                                         .addComponent(stopBtn)))
+                                        .addComponent(car1Slider)
+                                        .addComponent(car2Slider)
+                                        .addComponent(car3Slider)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                 .addGroup(layout.createSequentialGroup()
                                         .addComponent(intersectionA)
                                         .addComponent(intersectionAColor)
-                                        .addContainerGap(40, 40)
+                                            .addContainerGap(20, 20)
                                         .addComponent(intersectionB)
                                         .addComponent(intersectionBColor)
-                                        .addContainerGap(40, 40)
+                                            .addContainerGap(20, 20)
                                         .addComponent(intersectionC)
                                         .addComponent(intersectionCColor))
                                         .addComponent(dataPanel)))
@@ -140,7 +164,7 @@ public class Main extends JFrame implements ChangeListener,Runnable
         );
 
         layout.setVerticalGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(currentTime)
                         .addComponent(timeTxt))
@@ -148,6 +172,10 @@ public class Main extends JFrame implements ChangeListener,Runnable
                         .addComponent(startBtn)
                         .addComponent(pauseBtn)
                         .addComponent(stopBtn))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(car1Slider)
+                        .addComponent(car2Slider)
+                        .addComponent(car3Slider))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(intersectionA)
                         .addComponent(intersectionAColor)
@@ -162,8 +190,6 @@ public class Main extends JFrame implements ChangeListener,Runnable
                 .addGap(20, 20, 20)
         );
 
-        pack();
-
     }
 
     private void onClick()
@@ -172,15 +198,18 @@ public class Main extends JFrame implements ChangeListener,Runnable
         {
             if(!simIsRunning.get())
             {
-                car1.start();
-                car2.start();
-                car3.start();
+                System.out.println(Thread.currentThread().getName() + " calling start");
 
                 intersecA.start();
                 intersecB.start();
                 intersecC.start();
 
+                car1.start();
+                car2.start();
+                car3.start();
+
                 workerThread.start();
+
             }
 
             simIsRunning.set(true);
@@ -234,9 +263,9 @@ public class Main extends JFrame implements ChangeListener,Runnable
     public void stateChanged(ChangeEvent e)
     {
         //When car sliders change, update data in table
-        data[0][1] = car1.getPosition();
-        data[1][1] = car2.getPosition();
-        data[2][1] = car3.getPosition();
+        data[0][1] = car1Slider.getValue();
+        data[1][1] = car2Slider.getValue();
+        data[2][1] = car3Slider.getValue();
 
 
         //Update speed
@@ -312,7 +341,18 @@ public class Main extends JFrame implements ChangeListener,Runnable
 
     @Override
     public void run() {
-        getData();
+
+        while(isRunning)
+        {
+            if(simIsRunning.get())
+            {
+                car1Slider.setValue(car1.getPosition());
+                car2Slider.setValue(car2.getPosition());
+                car3Slider.setValue(car3.getPosition());
+
+                getData();
+            }
+        }
     }
 
     public static void main(String args[])
