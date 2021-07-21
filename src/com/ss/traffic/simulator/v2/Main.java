@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Main implements ChangeListener
+public class Main extends JFrame implements ChangeListener,Runnable
 {
     //Control Buttons
     private JButton startBtn = new JButton("START");
@@ -24,6 +24,8 @@ public class Main implements ChangeListener
     private JLabel intersectionAColor = new JLabel();
     private JLabel intersectionBColor = new JLabel();
     private JLabel intersectionCColor = new JLabel();
+
+    static Thread workerThread;
 
     /**
      * Three car objects running a thread each
@@ -57,15 +59,23 @@ public class Main implements ChangeListener
     private String [] tableCols = {"Car","X-pos","Y-pos","Speed km/h"};
     private JTable trafficDataTable = new JTable(data,tableCols);
 
-    //Displays all components
-    private Window window;
-
 
     public Main()  {
-        window = new Window("TRAFFIC SIMULATOR");
+        super("Traffic Simulator");
+        isRunning = Thread.currentThread().isAlive();
         setupGUI();
         onClick();
     }
+
+    private void display()
+    {
+        setLocationRelativeTo(null);
+        setSize(600,400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+        setResizable(false);
+    }
+
 
     private void setupGUI()
     {
@@ -96,8 +106,8 @@ public class Main implements ChangeListener
         dataPanel.add(scrollPane);
 
         //GUI Layout
-        GroupLayout layout = new GroupLayout(window.getContentPane());
-        window.getContentPane().setLayout(layout);
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
 
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
@@ -152,7 +162,7 @@ public class Main implements ChangeListener
                 .addGap(20, 20, 20)
         );
 
-        window.pack();
+        pack();
 
     }
 
@@ -169,6 +179,8 @@ public class Main implements ChangeListener
                 intersecA.start();
                 intersecB.start();
                 intersecC.start();
+
+                workerThread.start();
             }
 
             simIsRunning.set(true);
@@ -221,6 +233,12 @@ public class Main implements ChangeListener
     @Override
     public void stateChanged(ChangeEvent e)
     {
+        //When car sliders change, update data in table
+        data[0][1] = car1.getPosition();
+        data[1][1] = car2.getPosition();
+        data[2][1] = car3.getPosition();
+
+
         //Update speed
         data[0][3] = car1.getSpeed() + " km/h";
         data[1][3] = car2.getSpeed() + " km/h";
@@ -232,10 +250,77 @@ public class Main implements ChangeListener
         trafficDataTable.repaint();
     }
 
+    private void getData() {
+        if(simIsRunning.get()) {
+            //Get colors for intersections, if Red check xPosition
+            switch(intersecA.getColor()) {
+                case "Red":
+                    for(Car i: carArray) {
+                        //If car xPosition is within 500 meters and light is red, set suspend to true for car to wait
+                        if(i.getPosition()>500 && i.getPosition()<1000) {
+                            i.atLight.set(true);
+                        }
+                    }
+                    break;
+                case "Green":
+                    for(Car i:carArray) {
+                        if(i.atLight.get()) {
+                            i.resume();
+                        }
+                    }
+                    break;
+            }
+
+            switch(intersecB.getColor()) {
+                case "Red":
+                    for(Car i: carArray) {
+                        //If car xPosition is within 500 meters and light is red, set suspend to true for car to wait
+                        if(i.getPosition()>1500 && i.getPosition()<2000) {
+                            i.atLight.set(true);
+                        }
+                    }
+                    break;
+                case "Green":
+                    for(Car i:carArray) {
+                        if(i.atLight.get()) {
+                            i.resume();
+                        }
+                    }
+                    break;
+            }
+
+            switch(intersecC.getColor()) {
+                case "Red":
+                    for(Car i: carArray) {
+                        //If car xPosition is within 500 meters and light is red, set suspend to true for car to wait
+                        if(i.getPosition()>2500 && i.getPosition()<3000) {
+                            i.atLight.set(true);
+                        }
+                    }
+                    break;
+                case "Green":
+                    for(Car i:carArray) {
+                        if(i.atLight.get()) {
+                            i.resume();
+                        }
+                    }
+                    break;
+            }
+        }
+
+    }
+
+    @Override
+    public void run() {
+        getData();
+    }
 
     public static void main(String args[])
     {
-        SwingUtilities.invokeLater(()->new Main());
+        Main main = new Main();
+        main.display();
+
+        workerThread = new Thread(main);
 
         Thread clock = new Thread(new CurrentTime());
         clock.start();
